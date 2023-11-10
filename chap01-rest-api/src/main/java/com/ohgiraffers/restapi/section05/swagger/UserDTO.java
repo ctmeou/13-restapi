@@ -1,13 +1,11 @@
-package com.ohgiraffers.restapi.section02.responseentity;
+package com.ohgiraffers.restapi.section05.swagger;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter @Setter @ToString
 public class UserDTO {
 

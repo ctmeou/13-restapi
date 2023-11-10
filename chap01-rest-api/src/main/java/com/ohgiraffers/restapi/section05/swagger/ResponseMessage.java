@@ -1,4 +1,4 @@
-package com.ohgiraffers.restapi.section02.responseentity;
+package com.ohgiraffers.restapi.section05.swagger;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
