@@ -8,7 +8,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @RequiredArgsConstructor(access = PRIVATE)
-public class CustomerProductsResponse {
+public class CustomerProductResponse {
 
     private final Long productCode;
     private final String productName;
@@ -17,9 +17,8 @@ public class CustomerProductsResponse {
     private final String productImageUrl;
     private final Long productStock;
 
-    public static CustomerProductsResponse from(final Product product) { //엔티티 전달했을 때 아래의 정보를 가져갈 수 있다.(모든 정보가 아닌 필요한 정보)
-
-        return new CustomerProductsResponse(
+    public static CustomerProductResponse from(final Product product){
+        return new CustomerProductResponse(
                 product.getProductCode(),
                 product.getProductName(),
                 product.getProductPrice(),
@@ -27,7 +26,7 @@ public class CustomerProductsResponse {
                 product.getProductImageUrl(),
                 product.getProductStock()
         );
-
     }
 
 }
+

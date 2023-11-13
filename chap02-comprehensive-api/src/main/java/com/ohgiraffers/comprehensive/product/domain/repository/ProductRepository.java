@@ -14,6 +14,7 @@ import java.util.Optional;
 /* 연관 관계 매핑 시 연관 대상 entity의 PK별로 한 번씩 구문이 발생하는 N + 1 문제가 있다.
 * 해당 필드 미사용 : FetchType.LAZY -> 아예 조회하지 않음
 * 해당 필드 사용 : fetch join(JPQL), @EntityGrap(Query Method) -> join해서 가져옴 */
+//⭐ 조회 시 쿼리메소드를 어떻게 만들지 생각하기, paging처리하고 싶은 부분을 어떻게 처리할지, N+1 문제가 있을 경우 어떻게 처리해야 하는지
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     /* 1. 상품 목록 조회 : 페이징, 주문 불가 상품 제외(고객) */
@@ -35,6 +36,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByProductCodeAndStatus(Long productCode, ProductStatusType productStatusType);
 
     /* 6. 상품 상세 조회 - productCode로 상품 1개 조회, 주문 불가 상품 포함(관리자) */
+    @EntityGraph(attributePaths = {"category"}) //product 한 번, category 한 번 별도로 조회했으나 fetch join(jpal)처럼 한 번에 join을 해서 조회한다면 EntityGraph을 이용하고 연관관계 필드를 이용해서 작성한다.카데고리를 이용해서 한번에 조회한다.
     Optional<Product> findByProductCodeAndStatusNot(Long productCode, ProductStatusType productStatusType);
 
 }

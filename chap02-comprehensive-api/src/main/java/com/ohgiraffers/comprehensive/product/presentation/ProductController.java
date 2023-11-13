@@ -2,7 +2,9 @@ package com.ohgiraffers.comprehensive.product.presentation;
 import com.ohgiraffers.comprehensive.common.paging.Pagenation;
 import com.ohgiraffers.comprehensive.common.paging.PagingButtonInfo;
 import com.ohgiraffers.comprehensive.common.paging.PagingResponse;
+import com.ohgiraffers.comprehensive.product.dto.response.AdminProductResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.AdminProductsResponse;
+import com.ohgiraffers.comprehensive.product.dto.response.CustomerProductResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.CustomerProductsResponse;
 import com.ohgiraffers.comprehensive.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    //⭐ url 부분 잘 작성하고, {categoryCode}로 받아오는 것은 PathVariable을 이용한다.
     /* 1. 상품 목록 죄회 - 페이징, 주문 불가 상품 제외(고객) */
     @GetMapping("/products") //모든 상품을 고객 입장에서 조회한다.         조회된 페이지를 넘기기 위해 파라미터 생성
     public ResponseEntity<PagingResponse> getCustomerProducts(@RequestParam(defaultValue = "1") final Integer page) {
@@ -68,5 +71,23 @@ public class ProductController {
 
     }
 
+    /* 5. 상품 상세 조회 - productCode로 상품 1개 조회, 주문 불가 상품 제외(고객) */
+    @GetMapping("/products/{productCode}")
+    public ResponseEntity<CustomerProductResponse> getCustomerProduct(@PathVariable final Long productCode) { //@PathVariable final Long productCode로 받은 값을 전달하면서 요청
 
+        final CustomerProductResponse customerProductResponse = productService.getCustomerProduct(productCode);
+
+        return ResponseEntity.ok(customerProductResponse);
+
+    }
+
+    /* 6. 상품 상세 조회 - productCode로 상품 1개 조회, 주문 불가 상품 포함(관리자) */
+    @GetMapping("/products-management/{productCode}")
+    public ResponseEntity<AdminProductResponse> getAdminProduct(@PathVariable final Long productCode) {
+
+        final AdminProductResponse adminProductResponse = productService.getAdminProduct(productCode);
+
+        return ResponseEntity.ok(adminProductResponse);
+
+    }
 }
