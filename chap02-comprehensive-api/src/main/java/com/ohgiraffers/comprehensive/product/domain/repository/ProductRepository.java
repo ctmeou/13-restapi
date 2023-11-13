@@ -39,4 +39,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @EntityGraph(attributePaths = {"category"}) //product 한 번, category 한 번 별도로 조회했으나 fetch join(jpal)처럼 한 번에 join을 해서 조회한다면 EntityGraph을 이용하고 연관관계 필드를 이용해서 작성한다.카데고리를 이용해서 한번에 조회한다.
     Optional<Product> findByProductCodeAndStatusNot(Long productCode, ProductStatusType productStatusType);
 
+    /* 7. 상품 등록(관리자) */
+    //상품 등록 시 별도의 메소드 정의 필요 없다 : 사용하고 있는 JpaRepository가 paging 기능과 sorting 기능, CRUD 기능도 가지고 있어서 save 메소드 호출하면 된다.
+
+    /* 8. 상품 수정(관리자) */
+    //수정 시에는 조회 후 엔티티 객체를 변경하면 된다.(고유 값 조회 후 엔티티 변경)
+
+    /* 9. 상품 삭제(관리자) */
+    //삭제 시에는 delete 메소드 사용하면 된다.
+
+    //따라서 코드 작성 없이 service에 로직 수행한다.
+
+
 }

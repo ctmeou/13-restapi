@@ -2,6 +2,8 @@ package com.ohgiraffers.comprehensive.product.presentation;
 import com.ohgiraffers.comprehensive.common.paging.Pagenation;
 import com.ohgiraffers.comprehensive.common.paging.PagingButtonInfo;
 import com.ohgiraffers.comprehensive.common.paging.PagingResponse;
+import com.ohgiraffers.comprehensive.product.dto.request.ProductCreateRequest;
+import com.ohgiraffers.comprehensive.product.dto.request.ProductUpdateRequest;
 import com.ohgiraffers.comprehensive.product.dto.response.AdminProductResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.AdminProductsResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.CustomerProductResponse;
@@ -11,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -90,4 +96,30 @@ public class ProductController {
         return ResponseEntity.ok(adminProductResponse);
 
     }
+
+    /* 7. 상품 등록(관리자) */
+    //⭐ post 방식일 경우 생성된 컨텐츠에 접근하려면 어떤 주소에 접근해야 하는지 규칙
+    @PostMapping("/products")           //@Valid을 작성하면 ProductCreateRequest productRequest 넘어올 때 ProductCreateRequest에서 작성한 어노테이션들이 검증돼서 넘어온다.
+    public ResponseEntity<Void> save(@RequestPart @Valid final ProductCreateRequest productRequest,
+                                     @RequestPart final MultipartFile productImg) {
+
+        final Long productCode = productService.save(productImg, productRequest); //저장된 productCode가 몇 번인지 필요하다.
+
+        //응답 시 등록 후 created 코드를 보내야 한다.(201번 코드)
+        return ResponseEntity.created(URI.create("/products-management/1" + productCode)).build(); //지금 생성한 상품에 대해 발생한 상품 코드를 넘겨야 한다.
+
+    }
+
+    /* 상품 수정(관리자) */
+    @PutMapping("/products/{productCode}") //요청 put 방식
+    public ResponseEntity<Void> update(@PathVariable final Long productCode,
+                                       @RequestPart @Valid final ProductUpdateRequest productRequest, //업데이트하고자 하는 request가 있을 경우 처리한다.
+                                       @RequestPart(required = false) final MultipartFile multipartFile) { //required = false 사용해서 이미지가 넘어올 수도 있고 안 넘어올 수도 있다.
+
+        return ResponseEntity.created(URI.create("/products-management" + productCode)).build();
+
+    }
+
+
+
 }

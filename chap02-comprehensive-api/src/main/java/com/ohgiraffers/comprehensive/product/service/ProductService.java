@@ -1,6 +1,10 @@
 package com.ohgiraffers.comprehensive.product.service;
 
 import com.ohgiraffers.comprehensive.common.exception.BadRequestException;
+import com.ohgiraffers.comprehensive.common.util.FileUploadUtils;
+import com.ohgiraffers.comprehensive.product.domain.Category;
+import com.ohgiraffers.comprehensive.product.domain.repository.CategoryRepository;
+import com.ohgiraffers.comprehensive.product.dto.request.ProductCreateRequest;
 import com.ohgiraffers.comprehensive.product.dto.response.AdminProductResponse;
 import com.ohgiraffers.comprehensive.product.domain.Product;
 import com.ohgiraffers.comprehensive.product.domain.repository.ProductRepository;
@@ -8,23 +12,35 @@ import com.ohgiraffers.comprehensive.product.dto.response.AdminProductsResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.CustomerProductResponse;
 import com.ohgiraffers.comprehensive.product.dto.response.CustomerProductsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
+import static com.ohgiraffers.comprehensive.common.exception.type.ExceptionCode.NOT_FOUND_CATEGORY_CODE;
 import static com.ohgiraffers.comprehensive.common.exception.type.ExceptionCode.NOT_FOUND_PRODUCT_CODE;
 import static com.ohgiraffers.comprehensive.product.domain.type.ProductStatusType.DELETED;
 import static com.ohgiraffers.comprehensive.product.domain.type.ProductStatusType.USABLE;
 
 @Service
 @RequiredArgsConstructor //반드시 필요한 Constructor을 전달받는 Constructor
+@Transactional
 public class ProductService {
 
     //의존성 주입
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    @Value("${image.image-url}")
+    private String IMAGE_URL;
+    @Value("${image.image-dir}")
+    private String IMAGE_DIR;
 
     private Pageable getPageable(final Integer page) {
 
@@ -95,6 +111,36 @@ public class ProductService {
                 .orElseThrow(() -> new BadRequestException(NOT_FOUND_PRODUCT_CODE));
 
         return AdminProductResponse.from(product);
+
+    }
+
+    private String getRandomName() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
+    /* 7. 상품 등록(관리자) */
+    public Long save(final MultipartFile productImg, final ProductCreateRequest productRequest) {
+
+        /* 전달된 파일을 서버의 지정 경로에 저장 */
+        String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, getRandomName(), productImg); //저장하고 싶은 경로 ,저장하고 싶은 이름
+
+        //카테고리 엔티티를 미리 조회해서 넘긴다.
+        Category category = categoryRepository.findById(productRequest.getCategoryCode())
+                .orElseThrow(() -> new BadRequestException(NOT_FOUND_CATEGORY_CODE));
+
+        final Product newProduct = Product.of(
+                productRequest.getProductName(),
+                productRequest.getProductPrice(),
+                productRequest.getProductDescription(),
+                //productRequest.getCategoryCode(), //타입이 맞지 않는다.
+                category, //알맞은 카테고리 엔티티 작성
+                IMAGE_URL + replaceFileName,
+                productRequest.getProductStock()
+        );
+
+        final Product product = productRepository.save(newProduct); //save하고 난 결과의 객체를 반환받는다.(저장된 productCode가 있다.)
+
+        return product.getProductCode();
 
     }
 

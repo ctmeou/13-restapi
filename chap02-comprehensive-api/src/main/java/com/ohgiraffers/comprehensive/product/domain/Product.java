@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 import static com.ohgiraffers.comprehensive.product.domain.type.ProductStatusType.USABLE;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -23,6 +24,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = IDENTITY) //auto increment로 처리된다.
     private Long productCode;
 
     @Column(nullable = false)
@@ -57,5 +59,29 @@ public class Product {
     @Enumerated(value = STRING) //enum 문자열로 사용 시 type 설정해줘야 한다.
     @Column(nullable = false)
     private ProductStatusType status = USABLE;
+
+    public Product(String productName, Long productPrice, String productDescription, Category category, String productImageUrl, Long productStock) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productDescription = productDescription;
+        this.category = category;
+        this.productImageUrl = productImageUrl;
+        this.productStock = productStock;
+    }
+
+    //of 메소드는 값을 받으면 Product 메소드를 만든다.
+    public static Product of(final String productName, final Long productPrice, final String productDescription,
+                             final Category category, final String productImageUrl, final Long productStock) {
+
+        return new Product(
+                productName,
+                productPrice,
+                productDescription,
+                category,
+                productImageUrl,
+                productStock
+        );
+
+    }
 
 }
