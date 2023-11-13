@@ -5,6 +5,7 @@ import com.ohgiraffers.comprehensive.common.util.FileUploadUtils;
 import com.ohgiraffers.comprehensive.product.domain.Category;
 import com.ohgiraffers.comprehensive.product.domain.repository.CategoryRepository;
 import com.ohgiraffers.comprehensive.product.dto.request.ProductCreateRequest;
+import com.ohgiraffers.comprehensive.product.dto.request.ProductUpdateRequest;
 import com.ohgiraffers.comprehensive.product.dto.response.AdminProductResponse;
 import com.ohgiraffers.comprehensive.product.domain.Product;
 import com.ohgiraffers.comprehensive.product.domain.repository.ProductRepository;
@@ -141,6 +142,40 @@ public class ProductService {
         final Product product = productRepository.save(newProduct); //save하고 난 결과의 객체를 반환받는다.(저장된 productCode가 있다.)
 
         return product.getProductCode();
+
+    }
+
+    /* 8. 상품 수정(관리자) */
+    public void update(Long productCode, MultipartFile productImg, ProductUpdateRequest productRequest) {
+
+        //상품 수정 전 상품을 조회한다.
+        Product product = productRepository.findByProductCodeAndStatusNot(productCode, DELETED)
+                .orElseThrow(() -> new BadRequestException(NOT_FOUND_PRODUCT_CODE));
+
+        //변경할 카테고리 엔티티 조회
+        Category category = categoryRepository.findById(productRequest.getCategoryCode())
+                .orElseThrow(() -> new BadRequestException(NOT_FOUND_CATEGORY_CODE));
+
+        /* 이미지 수정 시 새로운 이미지 저장 후 기존 이미지 삭제 로직 필요 */
+        //이미지가 있을 경우
+        if (productImg != null) {
+            /* 새로 입력된 이미지 저장 */
+            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, getRandomName(), productImg);
+            /* 기존 이미지 삭제 */
+            FileUploadUtils.deleteFile(IMAGE_DIR, product.getProductImageUrl().replace(IMAGE_URL, "")); //파일명만 남겨서 처리
+            /* entity 정보 변경 */
+            product.updateProductImageUrl(IMAGE_URL + replaceFileName);
+        }
+
+        /* entity 정보 변경 */
+        product.update(
+                productRequest.getProductName(),
+                productRequest.getProductPrice(),
+                productRequest.getProductDescription(),
+                category,
+                productRequest.getProductStock(),
+                productRequest.getStatus()
+        );
 
     }
 

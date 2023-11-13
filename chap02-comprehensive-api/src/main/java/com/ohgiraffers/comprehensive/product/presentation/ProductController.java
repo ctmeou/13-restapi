@@ -114,7 +114,9 @@ public class ProductController {
     @PutMapping("/products/{productCode}") //요청 put 방식
     public ResponseEntity<Void> update(@PathVariable final Long productCode,
                                        @RequestPart @Valid final ProductUpdateRequest productRequest, //업데이트하고자 하는 request가 있을 경우 처리한다.
-                                       @RequestPart(required = false) final MultipartFile multipartFile) { //required = false 사용해서 이미지가 넘어올 수도 있고 안 넘어올 수도 있다.
+                                       @RequestPart(required = false) final MultipartFile productImg) { //required = false 사용해서 이미지가 넘어올 수도 있고 안 넘어올 수도 있다.
+
+        productService.update(productCode, productImg, productRequest);
 
         return ResponseEntity.created(URI.create("/products-management" + productCode)).build();
 

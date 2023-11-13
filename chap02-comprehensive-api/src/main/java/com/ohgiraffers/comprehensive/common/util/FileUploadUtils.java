@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import static com.ohgiraffers.comprehensive.common.exception.type.ExceptionCode.FAIL_TO_DELETE_FILE;
 import static com.ohgiraffers.comprehensive.common.exception.type.ExceptionCode.FAIL_TO_UPLOAD_FILE;
 
 public class FileUploadUtils {
@@ -36,6 +37,18 @@ public class FileUploadUtils {
 
         } catch (IOException e) {
             throw new ServerInternalException(FAIL_TO_UPLOAD_FILE);
+        }
+
+    }
+
+    public static void deleteFile(String uploadDir, String fileName) {
+
+        try {
+            Path uploadPath = Paths.get(uploadDir);
+            Path filePath = uploadPath.resolve(fileName);
+            Files.delete(filePath);
+        } catch (IOException e) {
+            throw new ServerInternalException(FAIL_TO_DELETE_FILE);
         }
 
     }

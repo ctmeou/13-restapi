@@ -84,4 +84,18 @@ public class Product {
 
     }
 
+    public void updateProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
+    public void update(String productName, Long productPrice, String productDescription,
+                       Category category, Long productStock, ProductStatusType status) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productDescription = productDescription;
+        this.category = category;
+        this.productStock = productStock;
+        this.status = status;
+    }
+
 }
