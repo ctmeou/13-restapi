@@ -146,7 +146,7 @@ public class ProductService {
     }
 
     /* 8. 상품 수정(관리자) */
-    public void update(Long productCode, MultipartFile productImg, ProductUpdateRequest productRequest) {
+    public void update(final Long productCode, final MultipartFile productImg, final ProductUpdateRequest productRequest) {
 
         //상품 수정 전 상품을 조회한다.
         Product product = productRepository.findByProductCodeAndStatusNot(productCode, DELETED)
@@ -176,6 +176,14 @@ public class ProductService {
                 productRequest.getProductStock(),
                 productRequest.getStatus()
         );
+
+    }
+
+    /* 9. 상품 삭제(관리자) */
+    public void delete(final Long productCode) {
+
+        productRepository.deleteById(productCode);
+
 
     }
 

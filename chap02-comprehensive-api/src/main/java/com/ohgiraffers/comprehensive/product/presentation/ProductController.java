@@ -110,7 +110,7 @@ public class ProductController {
 
     }
 
-    /* 상품 수정(관리자) */
+    /* 8. 상품 수정(관리자) */
     @PutMapping("/products/{productCode}") //요청 put 방식
     public ResponseEntity<Void> update(@PathVariable final Long productCode,
                                        @RequestPart @Valid final ProductUpdateRequest productRequest, //업데이트하고자 하는 request가 있을 경우 처리한다.
@@ -119,6 +119,16 @@ public class ProductController {
         productService.update(productCode, productImg, productRequest);
 
         return ResponseEntity.created(URI.create("/products-management" + productCode)).build();
+
+    }
+
+    /* 9. 상품 삭제(관리자) */
+    @DeleteMapping("/products/{productCode}")
+    public ResponseEntity<Void> delete(@PathVariable final Long productCode) {
+
+        productService.delete(productCode);
+
+        return ResponseEntity.noContent().build();
 
     }
 

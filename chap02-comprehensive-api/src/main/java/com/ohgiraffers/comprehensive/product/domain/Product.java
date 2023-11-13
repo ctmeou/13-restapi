@@ -3,6 +3,7 @@ package com.ohgiraffers.comprehensive.product.domain;
 import com.ohgiraffers.comprehensive.product.domain.type.ProductStatusType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,6 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED) //기본 생성자, 접근에 대한 것을 지정할 수 있다.
 @Getter
 @EntityListeners(AuditingEntityListener.class) //@EntityListeners : 엔티티의 변화를 감지한다.
+@SQLDelete(sql = "UPDATE tbl_product SET status = 'DELETED' WHERE product_code = ?") //delete 요청 시 테이블의 status를 DELETED로 변경한다.(delete가 되는 것이 아니라 상태가 변경된다.)
 public class Product {
 
     @Id
