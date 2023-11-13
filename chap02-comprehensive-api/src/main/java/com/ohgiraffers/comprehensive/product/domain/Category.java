@@ -1,4 +1,4 @@
-package com.ohgiraffers.comprehensiveapi.product.domain;
+package com.ohgiraffers.comprehensive.product.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "tbl_category")
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Category {
 
