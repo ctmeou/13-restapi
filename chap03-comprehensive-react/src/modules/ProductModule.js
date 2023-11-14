@@ -10,12 +10,13 @@ const GET_PRODUCTS = 'product/GET_PRODUCTS';
 //createActions : 액션 객체를 만들어서 반환한다.
 //키 값은 액션의 타입이 되고, 반환 값은 payload의 값이다.
 export const { product : { getProducts } } = createActions({
-    [GET_PRODUCTS] : () => {}
+    [GET_PRODUCTS] : result => ({ products : result.data })
 });
 
 /* 리듀서 */
+//두 가지의 속성 state, action(action 객체 안의 payload를 꺼내서 사용하고 ({ products : result.data })이렇게 생겼다)
 const productReducer = handleActions({
-    [GET_PRODUCTS] : () => {}
+    [GET_PRODUCTS] : (state, { payload }) => payload
 }, initialState);
 
 export default productReducer;
