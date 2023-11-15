@@ -31,5 +31,4 @@ public enum ProductStatusType {
     @JsonValue //@JsonValue 작성 시 USABLE("usable")에 작성해놓은 값 중 usable로 값이 넘어온다. 미작성 시 USABLE
     public String getValue() { return value; }
 
-
 }

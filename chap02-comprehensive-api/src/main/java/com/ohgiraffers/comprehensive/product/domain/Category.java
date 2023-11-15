@@ -22,5 +22,4 @@ public class Category {
     @Column(nullable = false) //생략해도 된다(네이밍 일치), 속성을 사용할 때는 어노테이션 작성해야 한다.
     private String categoryName;
 
-
 }
