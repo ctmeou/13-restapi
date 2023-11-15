@@ -76,4 +76,10 @@ public class Member {
 
     }
 
+    public void updateRefreshToken(String refreshToken) {
+
+        this.refreshToken = refreshToken; //현재 필드에 있는 refreshToken을 변경해준다.
+
+    }
+
 }

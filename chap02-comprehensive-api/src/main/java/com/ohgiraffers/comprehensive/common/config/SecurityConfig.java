@@ -1,6 +1,7 @@
 package com.ohgiraffers.comprehensive.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohgiraffers.comprehensive.jwt.service.JwtService;
 import com.ohgiraffers.comprehensive.login.filter.CustomUsernamePasswordAuthenticationFilter;
 import com.ohgiraffers.comprehensive.login.handler.LoginFailureHandler;
 import com.ohgiraffers.comprehensive.login.handler.LoginSuccessHandler;
@@ -30,6 +31,7 @@ public class SecurityConfig {
 
     private final ObjectMapper objectMapper;
     private final LoginService loginService;
+    private final JwtService jwtService;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -109,7 +111,7 @@ public class SecurityConfig {
     /* 로그인 성공 핸들러 빈 등록 */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
+        return new LoginSuccessHandler(jwtService); //생성 시 service가 넘어가야 생성이 된다.
     }
 
     /* 로그인 인증 필터 빈 등록 */
