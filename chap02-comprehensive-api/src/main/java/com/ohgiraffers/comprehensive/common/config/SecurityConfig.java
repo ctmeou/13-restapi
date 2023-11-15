@@ -3,6 +3,7 @@ package com.ohgiraffers.comprehensive.common.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohgiraffers.comprehensive.login.filter.CustomUsernamePasswordAuthenticationFilter;
 import com.ohgiraffers.comprehensive.login.handler.LoginFailureHandler;
+import com.ohgiraffers.comprehensive.login.handler.LoginSuccessHandler;
 import com.ohgiraffers.comprehensive.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -105,6 +106,12 @@ public class SecurityConfig {
         return new LoginFailureHandler(objectMapper);
     }
 
+    /* 로그인 성공 핸들러 빈 등록 */
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
     /* 로그인 인증 필터 빈 등록 */
     @Bean
     public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() {
@@ -116,6 +123,8 @@ public class SecurityConfig {
         customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
         /* 로그인 실패 핸들링 */ //LoginFailureHandler를 작성 후에 선언한다.
         customUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        /* 로그인 성공 핸들링 */
+        customUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
 
         return customUsernamePasswordAuthenticationFilter;
 
