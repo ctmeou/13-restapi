@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static java.util.jar.Attributes.Name.CONTENT_TYPE;
 
 /* 스프링 시큐리티의 기존 UsernamePasswordAuthenticationFilter를 대체할 Custom Filter 작성 */
 //로그인에 대한 필터를 custom한다.
@@ -26,7 +25,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
     //생성자도 만들어준다.
     //생성자 목적 : 이 과정에서 요청에 대한 어떠한 처리를 할 것인지
     private static final String HTTP_METHOD = "POST";
-    private static final String LOGIN_REQUEST_URL = "member/login";
+    private static final String LOGIN_REQUEST_URL = "/member/login";
 
     private static final String CONTENT_TYPE = "application/json";
 

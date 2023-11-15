@@ -3,6 +3,7 @@ package com.ohgiraffers.comprehensive.login.service;
 import com.ohgiraffers.comprehensive.member.domain.Member;
 import com.ohgiraffers.comprehensive.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +22,11 @@ public class LoginService implements UserDetailsService {
         Member member = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 아이디가 존재하지 않습니다."));
 
-        return null;
+        return User.builder() //builder 패턴의 메소드를 호출해서 user타입을 하나 만드는데 DB에서 조회한 username, password, roles를 가져와서 user 객체를 반환한다.
+                .username(member.getMemberId())
+                .password(member.getMemberPassword())
+                .roles(member.getMemberRole().name())
+                .build();
 
     }
 
