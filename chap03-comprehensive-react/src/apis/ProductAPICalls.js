@@ -30,3 +30,18 @@ export const callProductCategoryListAPI = ({ categoryCode, currentPage = 1 }) =>
     }
 
 };
+
+export const callProductSearchListAPI = ({ productName, currentPage = 1 }) => {
+
+    return async (dispatch, getState) => {
+
+        const result = await request('GET', `/products/categories/${ categoryCode }?page=${ currentPage }`);
+        console.log('callProductCategoryListAPI result : ', result);
+
+        if (result.status === 200) {
+            dispatch(getProducts(result)); //action 객체를 생성하기 위해 action 함수 호출
+        }
+
+    }
+
+};
