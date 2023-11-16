@@ -1,15 +1,15 @@
 import {request} from "./Api";
-import {signupFailure, signupSuccess} from "../modules/MemberModule";
+import {loginFailure, loginSuccess, signupFailure, signupSuccess} from "../modules/MemberModule";
 import {toast} from "react-toastify";
 import {saveToken} from "../utils/TokenUtils";
 
-export const callSignupAPI = ({signupRequest}) => {
+export const callSignupAPI = ({ signupRequest }) => {
 
     return async (dispatch, getState) => {
         const result = await request(
             'POST',
             '/member/signup',
-            {'Content-Type' : 'application/json'},
+            { 'Content-Type' : 'application/json' },
             JSON.stringify(signupRequest) //자바스크립트를 JSON 문자열로 변환해준다.
         );
 
@@ -40,8 +40,9 @@ export const callLoginAPI = ({ loginRequest }) => {
 
         if (result?.status === 200) {
             saveToken(result.headers);
+            dispatch(loginSuccess());
         } else {
-            
+            dispatch(loginFailure());
         }
 
     }
