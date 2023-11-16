@@ -211,3 +211,165 @@ a:hover, a:focus, a:active{
     background-color: white;
     font-weight: bold;
 }
+
+
+/* signup ---------------------------------------------------------------------------------------- */
+.background-div{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: #E8E8E8;
+}
+
+.signup-div {
+    height: 350px;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 25px;
+}
+
+.signup-div input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    text-indent: 10px;
+}
+
+.signup-div button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
+
+/* login ---------------------------------------------------------------------------- */
+.login-div{
+    height: 300px;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 25px;
+}
+
+.login-div input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    text-indent: 10px;
+}
+
+.login-div button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
+
+/* mypage ----------------------------------------------------------------------- */
+.mypage-main {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+.mypage-layout-div {
+    display: flex;
+    height: 100vh;
+}
+
+/* mypage navbar */
+.mypage-navbar-div {
+    min-width: 200px;
+    border-right: 1px solid black;
+}
+
+.mypage-navbar-ul {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    list-style:none;
+    padding-left:0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mypage-navbar-ul li {
+    width: 100%;
+    padding-left: 20px;
+    height: auto;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mypage-navbar-ul a {
+    text-decoration: none;
+    color: black;
+}
+
+/* profile ----------------------------------------- */
+.profile-background-div{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-item-div{
+    height: 300px;
+    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 25px;
+}
+
+.profile-item-div input {
+    text-align: center;
+    width: 250px;
+    height: 30px;
+    font-size: 15px;
+    margin : 10px;
+    outline: none;
+}

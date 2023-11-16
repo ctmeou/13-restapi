@@ -3,6 +3,10 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Main from "./pages/products/Main";
 import CategoryMain from "./pages/products/CategoryMain";
+import Signup from "./pages/member/Signup";
+import ProductDetail from "./pages/products/ProductDetail";
+import SearchMain from "./pages/products/SearchMain";
+import Login from "./pages/member/Login";
 
 function App() {
   return (
@@ -12,8 +16,14 @@ function App() {
               <Route index element={ <Main/> }/>
               <Route path="product">
                   <Route path="categories/:categoryCode" element={ <CategoryMain/> }/>
+                  <Route path="search" element={ <SearchMain/> }/>
+                  <Route path=":productCode" element={ <ProductDetail/> }/>
               </Route>
           </Route>
+            <Route path="/member">
+                <Route path="signup" element={ <Signup/> }/>
+                <Route path="login" element={ <Login/> }/>
+            </Route>
         </Routes>
       </BrowserRouter>
   );

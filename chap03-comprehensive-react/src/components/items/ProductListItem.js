@@ -1,4 +1,13 @@
-function ProductListItem({ product : { productImageUrl, productName, productPrice } }) {
+import {useNavigate} from "react-router-dom";
+
+function ProductListItem({ product : { productCode, productImageUrl, productName, productPrice } }) {
+
+    const navigate = useNavigate();
+
+    const onClickProductHandler = () => {
+        navigate(`/product/${productCode}`);
+    }
+
 
     return (
         <div className="product-div">
