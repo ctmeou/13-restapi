@@ -2,6 +2,7 @@ package com.ohgiraffers.comprehensive.jwt.filter;
 
 import com.ohgiraffers.comprehensive.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -42,6 +43,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter { //한 번만
 
         /* 2-2. Refresh Token이 없다면?
         * - AccessToken 유효성 확인 */ //유효하면 진행, 유효하지 않으면 진행 X
+        if (refreshToken == null) {
+            jwtService.checkAccessTokenAndAuthentication(request, response, filterChain);
+        }
 
     }
 

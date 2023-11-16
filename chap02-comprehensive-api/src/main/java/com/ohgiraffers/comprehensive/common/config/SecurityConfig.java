@@ -1,6 +1,9 @@
 package com.ohgiraffers.comprehensive.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohgiraffers.comprehensive.jwt.filter.JwtAuthenticationFilter;
+import com.ohgiraffers.comprehensive.jwt.handler.JwtAccessDeniedHandler;
+import com.ohgiraffers.comprehensive.jwt.handler.JwtAuthenticationEntryPoint;
 import com.ohgiraffers.comprehensive.jwt.service.JwtService;
 import com.ohgiraffers.comprehensive.login.filter.CustomUsernamePasswordAuthenticationFilter;
 import com.ohgiraffers.comprehensive.login.handler.LoginFailureHandler;
@@ -33,10 +36,26 @@ public class SecurityConfig {
     private final LoginService loginService;
     private final JwtService jwtService;
 
+    /* 테스트
+      1. Token 값이 없거나 잘못 작성된 경우
+        GET http://localhost:8001/member/hello로 token 없이 → 인증되지 않은 요청
+      2. AccessToken 유효한 경우
+        GET http://localhost:8001/member/hello로 token 가지고 → 인증되어 404
+      3. AccessToken 유효하지 않고 RefreshToken 유효한 경우
+        accessToken 시간 설정 짧게
+        현재 refreshToken 확인 후 업데이트 되는지
+        GET http://localhost:8001/member/hello로 access token 가지고 → 인증되지 않은 요청
+        GET http://localhost:8001/member/hello로 refresh token 가지고 → 헤더 응답으로 새로운 access token, refresh token 발급
+        GET http://localhost:8001/member/hello로 재발급 받은 access token 가지고 요청하면 된다.(시간이 짧게 설정되어서 다시 만료로 뜨지만)
+      4. AccessToken 유효하지만 권한이 없는 경우
+        GET http://localhost:8001/api/v1/products-management?page=1로 일반 유저 로그인 후 발급 받은 accessToken 가지고 → 허가되지 않은 요청
+        GET http://localhost:8001/api/v1/products-management?page=1로 관리자 유저 로그인 후 발급 받은  accessToken 가지고 → 조회 완료
+    */
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http  //여기에 설정한 인증 인가에 대해 build하면 Security에 대한 설정
+        return http //여기에 설정한 인증 인가에 대해 build하면 Security에 대한 설정
                 // CSRF 설정 비활성화
                 .csrf()
                 .disable()
@@ -48,16 +67,23 @@ public class SecurityConfig {
                 // 요청에 대한 권한 체크
                 .authorizeRequests()
                 // 클라이언트가 외부 도메인을 요청하는 경우 웹 브라우저에서 자체적으로 사전 요청(preFlight)이 일어난다.
-                // 이 떄 OPTIONS 메소드로 서버에 사전 요청을 보내 권한을 확인한다.
+                // 이 때 OPTIONS 메소드로 서버에 사전 요청을 보내 권한을 확인한다.
                 //antMatchers을 이용해서 HttpMethod.OPTIONS 메소드의 요청에 대해 허용
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //브라우저에 대한 사전 요청
                 .antMatchers(HttpMethod.GET, "api/v1/products/**").permitAll() //상품 목록이나 상품 상세 정보를 볼 때 인증되지 않아도 볼 수 있게 get 방식으로 비로그인 상태로 볼 수 있게 설정
                 .antMatchers("/member/signup").permitAll() //회원가입도 비로그인 상태로 할 수 있다.
-                .antMatchers("/api/v1/product-management/**", "/api/v1/products/**").hasRole("ADMIN") //관리자가 수행할 일
+                .antMatchers("/api/v1/products-management/**", "/api/v1/products/**").hasRole("ADMIN") //관리자가 수행할 일
                 .anyRequest().authenticated() //여기에 작성한 것 외의 것은 로그인해야 이용할 수 있다.
                 .and()
                 // 로그인 필터 설정
                 .addFilterBefore(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) //커스텀에서 만든 로그인 시 동작 : addFilterBefore, 필터 체인이 있고 필터 앞에 UsernamePasswordAuthenticationFilter.class 끼워넣는다.
+                // JWT Token 인증 필터 설정(로그인 필터 앞에 설정)
+                .addFilterBefore(jwtAuthenticationFilter(), CustomUsernamePasswordAuthenticationFilter.class)
+                // exception handing 설정
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint())
+                .accessDeniedHandler(jwtAccessDeniedHandler())
+                .and()
                 // 교차 출처 자원 공유 설정
                 .cors()
                 .and()
@@ -130,6 +156,24 @@ public class SecurityConfig {
 
         return customUsernamePasswordAuthenticationFilter;
 
+    }
+    
+    /* JWT 인증 필터 */
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtService);
+    }
+    
+    /* 인증 실패 핸들러 */
+    @Bean
+    public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
+        return new JwtAuthenticationEntryPoint(objectMapper);
+    }
+    
+    /* 인가 실패 핸들러 */
+    @Bean
+    public JwtAccessDeniedHandler jwtAccessDeniedHandler() {
+        return new JwtAccessDeniedHandler(objectMapper);
     }
 
 }
