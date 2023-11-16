@@ -70,7 +70,7 @@ public class SecurityConfig {
                 // 이 때 OPTIONS 메소드로 서버에 사전 요청을 보내 권한을 확인한다.
                 //antMatchers을 이용해서 HttpMethod.OPTIONS 메소드의 요청에 대해 허용
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //브라우저에 대한 사전 요청
-                .antMatchers(HttpMethod.GET, "api/v1/products/**").permitAll() //상품 목록이나 상품 상세 정보를 볼 때 인증되지 않아도 볼 수 있게 get 방식으로 비로그인 상태로 볼 수 있게 설정
+                .antMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll() //상품 목록이나 상품 상세 정보를 볼 때 인증되지 않아도 볼 수 있게 get 방식으로 비로그인 상태로 볼 수 있게 설정
                 .antMatchers("/member/signup").permitAll() //회원가입도 비로그인 상태로 할 수 있다.
                 .antMatchers("/api/v1/products-management/**", "/api/v1/products/**").hasRole("ADMIN") //관리자가 수행할 일
                 .anyRequest().authenticated() //여기에 작성한 것 외의 것은 로그인해야 이용할 수 있다.
@@ -99,12 +99,14 @@ public class SecurityConfig {
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 로컬 React에서 오는 요청은 허용한다.
+        //요청에 대한 설정(103~107)
         corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); //Origins에서 오는 것이 프로토콜, ip와 port이고 그것을 허용한다. asList는 하나의 요청 이후 여러 요청을 할 수 있기에 작성했다.
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "PUT", "POST", "DELETE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList(
                 "Access-Control-Allow-Origin", "Access-Control-ALlow-Headers",
-                "Content-Type", "Authorization", "X-Requested-With"
-        ));
+                "Content-Type", "Authorization", "X-Requested-With", "Access-Token", "Refresh-Token"));
+        //응답에 대한 설정(110)
+        corsConfiguration.setExposedHeaders(Arrays.asList("Access-Token", "Refresh-Token"));
         // 모든 요청 url 패턴에 대해 위의 설정을 적용한다.
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
