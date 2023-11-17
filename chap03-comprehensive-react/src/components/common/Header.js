@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {isLogin, removeToken} from "../../utils/TokenUtils";
 
 function Header() {
 
@@ -58,10 +59,30 @@ function Header() {
     //로그인 후에 보여줄 컴포넌트
     function AfterLogin() {
 
+        //로그아웃 -> 토큰이 지워져야 한다.(TokenUtils에서 설정 후 요청)
+        const onClickLogoutHandler = () => {
+            removeToken(); //지워지고 나서 UI에서는 변동이 없음(reload를 해야 한다.) -> Main으로 reload될 수 있게 설정한다.
+            window.location.replace("/") //root로 다시 갈 수 있도록 새로고침해주고 UI에서 로그아웃이 됐다고 판단할 수 있다.
+        }
+
+        const onClickMypageHandler = () => {
+            navigate('member/mypage');
+        }
+
         return(
             <div>
-                <button className="header-btn">마이페이지</button>
-                <button className="header-btn">로그아웃</button>
+                <button
+                    className="header-btn"
+                    onClick={ onClickMypageHandler }
+                >
+                    마이페이지
+                </button>
+                <button
+                    className="header-btn"
+                    onClick={ onClickLogoutHandler }
+                >
+                    로그아웃
+                </button>
             </div>
         );
 
@@ -83,8 +104,8 @@ function Header() {
                     placeholder="검색"
                     onChange={ onSearchChangeHandler }
                     onKeyUp={ onEnterKeyHandler }
-                />
-                { false ? <AfterLogin/> : <BeforeLogin/> } {/*로그인 유무 확인하는 조건부 렌더링 현재 확인할 수 없어 false로 설정*/}
+                />                     {/*로그인 판단 유무는 토큰으로 할 수 있음 -> TokenUtils에서 호출해서 확인해본다.*/}
+                { isLogin() ? <AfterLogin/> : <BeforeLogin/> } {/*로그인 유무 확인하는 조건부 렌더링 현재 확인할 수 없어 false로 설정했었고 TokenUtils에서 토큰 판단 유무를 설정했기 때문에 isLogin으로 변경*/}
             </div>
         </>
     );
