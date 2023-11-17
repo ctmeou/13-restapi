@@ -70,6 +70,7 @@ public class SecurityConfig {
                 // 이 때 OPTIONS 메소드로 서버에 사전 요청을 보내 권한을 확인한다.
                 //antMatchers을 이용해서 HttpMethod.OPTIONS 메소드의 요청에 대해 허용
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //브라우저에 대한 사전 요청
+                .antMatchers(HttpMethod.GET, "/productimgs/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll() //상품 목록이나 상품 상세 정보를 볼 때 인증되지 않아도 볼 수 있게 get 방식으로 비로그인 상태로 볼 수 있게 설정
                 .antMatchers("/member/signup").permitAll() //회원가입도 비로그인 상태로 할 수 있다.
                 .antMatchers("/api/v1/products-management/**", "/api/v1/products/**").hasRole("ADMIN") //관리자가 수행할 일

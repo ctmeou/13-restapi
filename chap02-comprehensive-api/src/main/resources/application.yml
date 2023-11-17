@@ -28,7 +28,7 @@ server:
 #dir 실제저장할 디렉토리
 image:
   image-url: http://localhost:8001/productimgs/
-  image-dir: src/main/resources/staic/productimgs
+  image-dir: src/main/resources/static/productimgs
 
 # jwt setting
 jwt:
