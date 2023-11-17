@@ -13,6 +13,7 @@ import MyPageLayout from "./layouts/MyPageLayout";
 import Profile from "./pages/member/Profile";
 import ProductManagement from "./pages/admin/ProductManagement";
 import ProductRegist from "./pages/admin/ProductRegist";
+import ProductModify from "./pages/admin/ProductModify";
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
                       <ProtectedRoute authCheck={ true }>
                           <ProductRegist/> {/*admin으로 로그인한 계정만 이용할 수 있으므로 어스체크*/}
                       </ProtectedRoute>
+                  }
+              />
+              <Route
+                  path="product-modify/:productCode"
+                  element={
+                    <ProtectedRoute authCheck={ true }>
+                        <ProductModify/>
+                    </ProtectedRoute>
                   }
               />
           </Route>

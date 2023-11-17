@@ -4,6 +4,7 @@ import {callAdminProductListAPI} from "../../apis/ProductAPICalls";
 import PagingBar from "../../components/common/PagingBar";
 import ProductTable from "../../components/items/ProductTable";
 import {useNavigate} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
 function ProductManagement() {
 
@@ -25,6 +26,7 @@ function ProductManagement() {
         <>
             { adminProducts &&
                 <div className="management-div">
+                    <ToastContainer hideProgressBar={ true } position="top-center"/>
                     <ProductTable data={ adminProducts.data }/>
                     <PagingBar pageInfo={ adminProducts.pageInfo } setCurrentPage={ setCurrentPage }/>
                     <button onClick={ onClickProductInsert }>상품 등록</button>

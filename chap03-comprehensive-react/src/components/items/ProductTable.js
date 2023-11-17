@@ -1,4 +1,13 @@
+import {useNavigate} from "react-router-dom";
+
 function ProductTable({ data }) {
+
+    const navigate = useNavigate();
+
+    /* 테이블 상품 행 클릭 시 상품 상세 및 수정 페이지로 이동 */
+    const onClickTableTr = (productCode) => {
+        navigate(`/product-modify/${ productCode }`);
+    }
 
     return (
         <table className="product-table">
@@ -17,6 +26,7 @@ function ProductTable({ data }) {
                     data.map(product => (
                         <tr
                             key={ product.productCode} //반복되는 코드에는 key 값 필요
+                            onClick={ () => onClickTableTr(product.productCode) }
                         >
                             <td>{ product.productCode }</td>
                             <td>{ product.productName }</td>
