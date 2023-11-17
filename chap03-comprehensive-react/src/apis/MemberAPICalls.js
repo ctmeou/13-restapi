@@ -1,5 +1,5 @@
-import {request} from "./Api";
-import {loginFailure, loginSuccess, signupFailure, signupSuccess} from "../modules/MemberModule";
+import {authRequest, request} from "./Api";
+import {getProfile, loginFailure, loginSuccess, signupFailure, signupSuccess} from "../modules/MemberModule";
 import {toast} from "react-toastify";
 import {saveToken} from "../utils/TokenUtils";
 
@@ -43,6 +43,22 @@ export const callLoginAPI = ({ loginRequest }) => {
             dispatch(loginSuccess());
         } else {
             dispatch(loginFailure());
+        }
+
+    }
+
+}
+
+//인증이 필요한 요청이기 때문에 authRequest
+export const callMemberAPI = () => { //Profile에서 볼 수 있게 요청해본다.
+
+    return async (dispatch, getState) => {
+
+        const result = await authRequest.get("/api/v1/member"); //해당 객체를 통해 보내고 싶은 메소드 작성하면 된다. .get() .post() .put() .delete() 첫 번쨰 인자는 url, 전달 인자가 있다면 두 번째 인자로 넣으면 된다.
+        console.log('callMemberAPI result : ', result);
+
+        if (result.status === 200) {
+            dispatch(getProfile(result));
         }
 
     }

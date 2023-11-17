@@ -1,7 +1,13 @@
-import {isLogin} from "../../utils/TokenUtils";
+import {isAdmin, isLogin} from "../../utils/TokenUtils";
 import {Navigate} from "react-router-dom";
 
-function ProtectedRoute({ loginCheck, children }) {
+function ProtectedRoute({ loginCheck, authCheck, children }) {
+
+    //권한 체크, admin이면 렌더링을 하고, 아니면 root(Navigate to="/")로 보낸다.
+    if (authCheck) {
+        /* 권한이 있어야 접근 가능한 기능(상품 관리 - 등록, 수정, 삭제 등) */
+        return isAdmin() ? children : <Navigate to="/"/>
+    }
 
     //loginCheck에서 true, false를 보내면 각각의 상태에서 볼 수 있는 기능을 설정한다.
     if (loginCheck) {

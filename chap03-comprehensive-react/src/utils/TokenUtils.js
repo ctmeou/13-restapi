@@ -1,6 +1,8 @@
 //토큰과 관련된 함수 작성
 import {jwtDecode} from "jwt-decode";
 
+const BEARER = 'Bearer ';
+
 export const saveToken = (headers) => {
     localStorage.setItem("access-token", headers['access-token']);
     localStorage.setItem("refresh-token", headers['refresh-token']);
@@ -20,6 +22,10 @@ const getDecodeAccessToken = () => {
 const getDecodeRefreshToken = () => {
     return getRefreshToken() && jwtDecode(getRefreshToken());
 }
+
+//원하는 문자열이 만들어진다. token의 값을 header에 보낼 경우 호출된다.
+export const getAccessTokenHeader = () => BEARER + getAccessToken();
+export const getRefreshTokenHeader = () => BEARER + getRefreshToken();
 
 //isLogin은 화면상에서 로그인했을 경우의 UI와 로그인하지 않았을 때의 UI를 보여주기 위한 판단을 하기 위해 사용
 export const isLogin = () => {

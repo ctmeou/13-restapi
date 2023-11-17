@@ -1,5 +1,5 @@
-import {request} from "./Api";
-import {getProduct, getProducts} from "../modules/ProductModule";
+import {authRequest, request} from "./Api";
+import {getAdminProducts, getProduct, getProducts} from "../modules/ProductModule";
                                         //꺼낼 때도 객체 안에서 꺼내야 한다.
 export const callProductListAPI = ({ currentPage = 1 }) => {
 
@@ -50,7 +50,7 @@ export const callProductDetailAPI = ({ productCode }) => {
 
     return async (dispatch, getState) => {
 
-        const result = await request('GET', `/products/${productCode}`);
+        const result = await request('GET', `/products/${ productCode }`);
         console.log('callProductDetailAPI result : ', result);
 
         if(result.status === 200) {
@@ -58,4 +58,20 @@ export const callProductDetailAPI = ({ productCode }) => {
         }
 
     }
+
+};
+
+export const callAdminProductListAPI = ({ currentPage = 1 }) => {
+
+    return async (dispatch, getState) => {
+
+        const result = await authRequest.get(`/api/v1/products-management?page=${ currentPage }`);
+        console.log('callAdminProductListAPI result : ', result);
+
+        if (result.status === 200) {
+            dispatch(getAdminProducts(result));
+        }
+
+    }
+
 };
