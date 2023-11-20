@@ -47,6 +47,7 @@ public class Review extends BaseEntity { //나머지는 상속받은 BaseEntity�
 
     public static Review of(Product product, Member member, String reviewTitle, String reviewContent) {
 
+        //Product product, Member member, String reviewTitle, String reviewContent의 값을 전달 받으면 아래의 값으로 리뷰가 생성된다.
         return new Review(
                 product,
                 member,

@@ -14,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @EntityGraph(attributePaths = { "product" })
     Page<Order> findByMemberCode(Pageable pageable, Long memberCode);
 
+    boolean existsByProductProductCodeAndMemberCode(Long productCode, Long memberCode);
+    //productCode와 memberCode를 조건으로 조회하고 존재하면 true/false를 반환하는 메소드
 }
