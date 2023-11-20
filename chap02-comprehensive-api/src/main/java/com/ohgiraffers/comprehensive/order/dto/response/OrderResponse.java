@@ -1,5 +1,6 @@
 package com.ohgiraffers.comprehensive.order.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ohgiraffers.comprehensive.order.domain.Order;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class OrderResponse {
     private final String productName;
     private final Long productPrice;
     private final Long orderAmount;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime orderDate;
 
     public static OrderResponse from(Order order) {
