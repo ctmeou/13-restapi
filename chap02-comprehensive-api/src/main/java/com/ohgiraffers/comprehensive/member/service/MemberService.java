@@ -1,6 +1,7 @@
 package com.ohgiraffers.comprehensive.member.service;
 
 import com.ohgiraffers.comprehensive.common.exception.BadRequestException;
+import com.ohgiraffers.comprehensive.common.exception.NotFoundException;
 import com.ohgiraffers.comprehensive.member.domain.Member;
 import com.ohgiraffers.comprehensive.member.domain.repository.MemberRepository;
 import com.ohgiraffers.comprehensive.member.dto.request.MemberSignupRequest;
@@ -39,7 +40,7 @@ public class MemberService {
     public ProfileResponse getProfile(String memberId) {
 
         final Member member = memberRepository.findByMemberId(memberId) //memberId 기준으로 조회하고
-                .orElseThrow(() -> new BadRequestException(NOT_FOUND_MEMBER_ID)); //없으면 NOT_FOUND_MEMBER_ID exception 발생
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_MEMBER_ID)); //없으면 NOT_FOUND_MEMBER_ID exception 발생
 
         //엔티티 member를 그대로 반환하는 것이 아닌 필요한 형태로 반환하는 것이 목적 -> ProfileResponse에 from 생성
         return ProfileResponse.from(member);

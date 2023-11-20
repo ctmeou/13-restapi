@@ -2,9 +2,9 @@ package com.ohgiraffers.comprehensive.common.exception;
 
 import com.ohgiraffers.comprehensive.common.exception.type.ExceptionCode;
 
-public class ServerInternalException extends CustomException {
+public class NotFoundException extends CustomException {
 
-    public ServerInternalException(final ExceptionCode exceptionCode) {
+    public NotFoundException(final ExceptionCode exceptionCode) {
         super(exceptionCode);
     }
 

@@ -1,6 +1,8 @@
 package com.ohgiraffers.comprehensive.jwt.service;
 
 import com.ohgiraffers.comprehensive.common.exception.BadRequestException;
+import com.ohgiraffers.comprehensive.common.exception.NotFoundException;
+import com.ohgiraffers.comprehensive.jwt.CustomUser;
 import com.ohgiraffers.comprehensive.member.domain.Member;
 import com.ohgiraffers.comprehensive.member.domain.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
@@ -83,7 +85,7 @@ public class JwtService {
         memberRepository.findByMemberId(memberId)
                 .ifPresentOrElse( //optional type에 대한 handling
                         member -> member.updateRefreshToken(refreshToken), //있을 경우 업데이트 로직 실행
-                        () -> new BadRequestException(NOT_FOUND_MEMBER_ID) //없을 경우 exception 발생
+                        () -> new NotFoundException(NOT_FOUND_MEMBER_ID) //없을 경우 exception 발생
                 );
 
     }
@@ -180,8 +182,11 @@ public class JwtService {
                 .roles(member.getMemberRole().name()) //roles은 문자열로 된 이름을 넣는다.
                 .build();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        CustomUser customUser = CustomUser.of(member.getMemberCode(), userDetails); //기본적으로 전달하는 것 3가지(userDetails)를 전달하고 memberCode를 추가적으로 전달
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(customUser, null, customUser.getAuthorities());
         //(인증주체, 비밀번호(현재 상황에서 setting할 필요 x, 로그인 여부 확인하지 않음), user/admin 세팅이 됨)
+        //조회된 정보를 customUser에 저장을 한다.
 
         SecurityContextHolder.getContext().setAuthentication(authentication); //user/admin 판단하려면 객체가 메모리에 저장이되어야 한다.
 

@@ -100,4 +100,8 @@ public class Product {
         this.status = status;
     }
 
+    public void updateStock(Long orderAmount) {
+        productStock -= orderAmount;
+    }
+
 }

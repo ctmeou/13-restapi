@@ -22,7 +22,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override //로그인 실패 시 사용될 메소드                                          response 객체를 통해 응답을 보내고 있다.
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(new ExceptionResponse(FAIL_LOGIN))); //자바 객체를 JSON String으로 출력
