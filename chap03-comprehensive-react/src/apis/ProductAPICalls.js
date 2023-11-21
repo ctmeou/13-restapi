@@ -24,6 +24,7 @@ export const callProductListAPI = ({ currentPage = 1 }) => {
 
 };
 
+//CategoryMain에서 dispatch 요청 관련
 export const callProductCategoryListAPI = ({ categoryCode, currentPage = 1 }) => {
 
     return async (dispatch, getState) => {
@@ -46,7 +47,7 @@ export const callProductSearchListAPI = ({ productName, currentPage = 1 }) => {
         const result = await request('GET', `/api/v1/products/search?productName=${ productName }&page=${ currentPage }`);
         console.log('callProductSearchListAPI result : ', result);
 
-        if (result.status === 200) {
+        if (result.status === 200) { //200번이면 저장한다.
             dispatch(getProducts(result)); //action 객체를 생성하기 위해 action 함수 호출
         }
 

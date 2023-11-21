@@ -5,7 +5,7 @@ function ProductListItem({ product : { productCode, productImageUrl, productName
     const navigate = useNavigate();
 
     const onClickProductHandler = () => {
-        navigate(`/product/${productCode}`);
+        navigate(`/product/${productCode}`); //상세 페이지 이동
     }
 
 

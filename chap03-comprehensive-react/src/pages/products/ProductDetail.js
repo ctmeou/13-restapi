@@ -10,8 +10,9 @@ function ProductDetail () {
     const { productCode } = useParams();
     const { product } = useSelector(state => state.productReducer);
 
+    //productCode가 변경되면 리렌더링된다.
     useEffect(() => {
-        dispatch(callProductDetailAPI({productCode}));
+        dispatch(callProductDetailAPI({ productCode }));
     }, []);
 
 
@@ -20,11 +21,12 @@ function ProductDetail () {
             {
                 product &&
                 <div className="detail-div">
-                    <ProductItem product={product}/>
+                    <ProductItem product={ product }/>
                 </div>
             }
         </>
     )
+
 }
 
 export default ProductDetail;

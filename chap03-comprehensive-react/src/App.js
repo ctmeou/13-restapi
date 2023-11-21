@@ -26,8 +26,8 @@ function App() {
           <Route path="/" element={ <Layout/> }>
               <Route index element={ <Main/> }/>
               <Route path="product"> {/*로그인 여부와 상관없이 보여줄 수 있지만*/}
-                  <Route path="categories/:categoryCode" element={ <CategoryMain/> }/>
-                  <Route path="search" element={ <SearchMain/> }/>
+                  <Route path="categories/:categoryCode" element={ <CategoryMain/> }/> {/*뒤의 값이 숫자로 변동됐는데 :categoryCode 변수 처리해서 변수를 꺼내 요청을 처리한다.->CategoryMain 참고*/}
+                  <Route path="search" element={ <SearchMain/> }/> {/*/product/search 요청이 오면 searchMain 엘리먼트로 라우팅한다.*/}
                   <Route path=":productCode" element={ <ProductDetail/> }/>
               </Route>
               <Route

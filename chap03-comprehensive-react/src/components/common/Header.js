@@ -4,24 +4,24 @@ import {isLogin, removeToken} from "../../utils/TokenUtils";
 
 function Header() {
 
-    const navigate = useNavigate();
-    const [search, setSearch] = useState(''); //문자열을 기본값으로 설정한다.
+    const navigate = useNavigate(); //main 페이지로 이동하게끔 사용할 수 있는 함수, useNavigate를 호출하면 전달 받는 함수가 navigate function이기 때문에 그것을 이용해서 main 페이지로 이동하게 작성할 수 있다.
+    const [search, setSearch] = useState(''); //search와 setSearch를 State에서 받아오고 문자열을 기본값으로 설정한다.
 
     /* 로고 클릭 시 메인 페이지로 이동 */
     const onClickHandler = () => {
-        navigate("/");
+        navigate("/"); //navigate 함수를 이용해서 main 이동 설정
     }
 
     /* 검색어 입력 값 상태 저장 */
     //저장하기 위한 state가 필요하기 때문에 선언 먼저 한다.
     const onSearchChangeHandler = e => {
-        setSearch(e.target.value); //onSearchChangeHandler 값이 이벤트가 발생할 때마다 바뀔 수 있다.
+        setSearch(e.target.value); //onSearchChangeHandler 값이 이벤트가 바뀔 때마다 바뀔 수 있다.
     }
 
     /* Enter 입력 시 검색 결과 화면으로 이동 */
-    //Enter 눌렀는지는 이벤트 안에서 확인할 수 있다.
+    //Enter 눌렀는지는 이벤트 겍체 안에서 어떤 이벤트가 일어났는지 확인할 수 있다.
     const onEnterKeyHandler = e => {
-        if (e.key === 'Enter') { //이벤트 객체로부터 key를 가지고 있고 Enter가 맞으면 라우팅할 화면을 가져온다.
+        if (e.key === 'Enter') { //이벤트 객체로부터 key 속성을 가지고 Enter가 맞으면 검색 결과에 대한 라우팅할 화면을 가져온다.
             navigate(`/product/search?value=${ search }`); //검색에 대한 키워드는 search에 띄워준다.
         }
     }

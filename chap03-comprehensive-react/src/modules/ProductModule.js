@@ -27,7 +27,7 @@ export const { product : { getProducts, getProduct, getAdminProducts, getAdminPr
 //두 가지의 속성 state, action(action 객체 안의 payload를 꺼내서 사용하고 ({ products : result.data })이렇게 생겼다)
 const productReducer = handleActions({
     [GET_PRODUCTS] : (state, { payload }) => payload,
-    [GET_PRODUCT] : (state, { payload }) => payload,
+    [GET_PRODUCT] : (state, { payload }) => payload, //state의 원래 있던 값은 지우고 덮어쓴다.
     [GET_ADMIN_PRODUCTS] : (state, { payload }) => payload,
     [GET_ADMIN_PRODUCT] : (state, { payload }) => payload,
     [POST_SUCCESS] : (state, { payload }) => payload,
