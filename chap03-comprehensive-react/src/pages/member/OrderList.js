@@ -18,15 +18,17 @@ function OrderList() {
     }, [currentPage]);
 
     const onClickReviewHandler = (productCode) => {
+        setProductCode(productCode); //🟠어떤 행이 클릭됐는지에 따라서 그 행에 맞는 후기 작성을 할 수 있다.(productCode)
+        setProductReviewWriteModal(true);
     };
 
     return (
         <>
-            <ToastContainer hideProgressBar={ true } position="top-center"/>
+            <ToastContainer hideProgressBar={ true } position="top-center"/> {/*에러 발생 시 ToastContainer 발생*/}
             {
                 productReviewWriteModal &&
-                <ReviewWriteModal
-                    productCode={ productCode }
+                <ReviewWriteModal //모달 창이 켜졌다가 끄기 위해 사용
+                    productCode={ productCode } //🟠
                     setProductReviewWriteModal={ setProductReviewWriteModal }
                 />
             }

@@ -1,7 +1,6 @@
 import {authRequest} from "./Api";
 import {toast} from "react-toastify";
-import {getOrders, postSuccess} from "../modules/OrderModule";
-import {getReview, getReviews} from "../modules/ReviewModule";
+import {getReview, getReviews, postSuccess} from "../modules/ReviewModule";
 
 export const callReviewsAPI = ({ productCode, currentPage }) => { //어떤 상품에 대해 여러 개의 후기를 가져오기 때문에 상품 코드 또한 받아온다.(특정 상품 기준으로 리뷰를 페이징해온다.)
 
@@ -44,6 +43,34 @@ export const callReviewAPI = ({ reviewCode }) => {
 
         if (result?.status === 200) {
             dispatch(getReview(result));
+        }
+
+    }
+
+}
+
+export const callReviewRegistAPI = ({ registRequest }) => {
+
+    return async (dispatch, getState) => {
+
+        const result = await authRequest.post('/api/v1/reviews', JSON.stringify(registRequest),
+            {
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }).catch(e => { //error인 경우 catch
+            if (e.response.status === 404) {
+                toast.error("리뷰 작성이 불가한 상품입니다. 😿🙏🏻");
+            } else if (e.response.status === 409) {
+                toast.error("리뷰가 이미 작성되어 작성이 불가합니다. 😿🙏🏻");
+            }
+        });
+
+        //error가 나지 않았을 경우의 응답 값
+        console.log('callReviewRegistAPI result : ', result);
+
+        if (result?.status === 201) {
+            dispatch(postSuccess());
         }
 
     }

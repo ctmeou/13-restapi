@@ -40,7 +40,7 @@ function ReviewDetail() {
                     <div className="product-button-div">
                         <button
                             className="back-btn"
-                            onClick={ () => navigate(-1) }
+                            onClick={ () => navigate(-1) } //navigate -1은 history가 있기 때문에 바로 전으로 돌아간다.
                         >
                             돌아가기
                         </button>

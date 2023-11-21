@@ -1,10 +1,30 @@
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {callReviewRegistAPI} from "../../apis/ReviewAPICalls";
+import {useNavigate} from "react-router-dom";
+
 function ReviewWriteModal({ productCode, setProductReviewWriteModal }) {
 
+    const [form, setForm] = useState({ productCode });
+    const dispatch = useDispatch();
+    const { postSuccess } = useSelector(state => state.reviewReducer);
+    const navigate = useNavigate();
+
+    useEffect(() => { //통신이 잘 되었는지 안 되었는지 판단하기 위해 사용하고 판단 근거는 postSuccess에서 온다.
+        if (postSuccess === true) {
+            navigate(`/review/product/${ productCode }`)
+        }
+    }, [postSuccess]);
 
     const onChangeHandler = (e) => {
+        setForm({
+            ...form,
+            [e.target.name] : e.target.value
+        })
     };
 
     const onClickProductReviewHandler = () => {
+        dispatch(callReviewRegistAPI({ registRequest : form }));
     };
 
     return (
@@ -33,7 +53,7 @@ function ReviewWriteModal({ productCode, setProductReviewWriteModal }) {
                         }}
                         onClick={ () => setProductReviewWriteModal(false) }
                     >
-                        돌아가기
+                        닫기
                     </button>
                 </div>
             </div>
