@@ -14,6 +14,10 @@ import Profile from "./pages/member/Profile";
 import ProductManagement from "./pages/admin/ProductManagement";
 import ProductRegist from "./pages/admin/ProductRegist";
 import ProductModify from "./pages/admin/ProductModify";
+import Order from "./pages/order/Order";
+import OrderList from "./pages/member/OrderList";
+import Reviews from "./pages/review/Reviews";
+import ReviewDetail from "./pages/review/ReviewDetail";
 
 function App() {
   return (
@@ -50,6 +54,26 @@ function App() {
                     </ProtectedRoute>
                   }
               />
+              <Route
+                  path="order"
+                  element={
+                    <ProtectedRoute loginCheck={ true }>
+                        <Order/>
+                    </ProtectedRoute>
+                  }
+              />
+              <Route path="review">
+                  <Route path="product/:productCode" element={ //그때 그때 다른 productCode의 상품이 온다.
+                      <ProtectedRoute loginCheck={ true }>
+                          <Reviews/>
+                      </ProtectedRoute>
+                  }/>
+                  <Route path=":reviewCode" element={
+                      <ProtectedRoute loginCheck={ true }>
+                          <ReviewDetail/>
+                      </ProtectedRoute>
+                  }/>
+              </Route>
           </Route>
             <Route path="/member"> {/*로그인 여부와 상관있는 UI는 checking할 수 있게 설정해야 한다.*/}
                 <Route path="signup" element={ <ProtectedRoute loginCheck={ false }><Signup/></ProtectedRoute> }/>
@@ -57,6 +81,7 @@ function App() {
                 <Route path="mypage" element={ <ProtectedRoute loginCheck={ true }><MyPageLayout/></ProtectedRoute> }>
                     <Route index element={ <Navigate to="/member/mypage/profile" replace/> }/> {/*현재 프로필은 /member/mypage/profile 주소인데 member/mypage로만 검색해도 프로필 페이지가 뜰 수 있게 설정*/}
                     <Route path="profile" element={ <Profile/> }/>
+                    <Route path="payment" element={ <OrderList/> }/>
                 </Route>
             </Route>
             <Route path="*" element={ <Error/> }/> {/*정의한 요청 외에 다른 요청이 올 경우 error 페이지를 보여준다.*/}

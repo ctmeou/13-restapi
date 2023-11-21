@@ -10,7 +10,10 @@ function ProductListItem({ product : { productCode, productImageUrl, productName
 
 
     return (
-        <div className="product-div">
+        <div
+            onClick={ onClickProductHandler }
+            className="product-div"
+        >
             <img src={ productImageUrl } alt={ productName }/>
             <h5>{ productName }</h5>
             <h5>{ productPrice }</h5>

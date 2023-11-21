@@ -8,13 +8,13 @@ const GET_PRODUCTS = 'product/GET_PRODUCTS';
 const GET_PRODUCT = 'product/GET_PRODUCT';
 const GET_ADMIN_PRODUCTS = 'product/GET_ADMIN_PRODUCTS';
 const GET_ADMIN_PRODUCT = 'product/GET_ADMIN_PRODUCT';
-const POST_SUCCESS = 'product/POST_SUCCESS'
-const PUT_SUCCESS = 'product/PUT_SUCCESS'
+const POST_SUCCESS = 'product/POST_SUCCESS';
+const PUT_SUCCESS = 'product/PUT_SUCCESS';
 
 /* 액션 함수 */
 //createActions : 액션 객체를 만들어서 반환한다.
 //키 값은 액션의 타입이 되고, 반환 값은 payload의 값이다.
-export const { product : { getProducts, getProduct, getAdminProducts, getAdminProduct, postSuccess, putSuccess} } = createActions({
+export const { product : { getProducts, getProduct, getAdminProducts, getAdminProduct, postSuccess, putSuccess } } = createActions({
     [GET_PRODUCTS] : result => ({ products : result.data }),
     [GET_PRODUCT] : result => ({ product : result.data }),
     [GET_ADMIN_PRODUCTS] : result => ({ adminProducts : result.data }),

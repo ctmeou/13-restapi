@@ -25,7 +25,7 @@ function ProductTable({ data }) {
                 {
                     data.map(product => (
                         <tr
-                            key={ product.productCode} //반복되는 코드에는 key 값 필요
+                            key={ product.productCode } //반복되는 코드에는 key 값 필요
                             onClick={ () => onClickTableTr(product.productCode) }
                         >
                             <td>{ product.productCode }</td>

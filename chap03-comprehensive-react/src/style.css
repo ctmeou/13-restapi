@@ -474,3 +474,225 @@ a:hover, a:focus, a:active{
     background-color: white;
     font-weight: bold;
 }
+
+/* purchase ---------------------------------------------------------- */
+.purchase-div{
+    display: flex;
+    flex-direction: row;
+}
+
+.purchase-info-div{
+    margin-top: 10px;
+    width: 350px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.purchase-info-div button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
+
+
+.purchase-info-div h3{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.purchase-input{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 20px;
+    width: 80%;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+    text-indent: 1em;
+}
+
+/* payment ----------------------------------------------------------------- */
+.payment-div{
+    margin-top: 20px;
+}
+
+.payment-table{
+    width: 800px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.payment-table th, td {
+    padding: 10px;
+    height: 10px;
+    text-align: center;
+    word-break:break-all;
+    table-layout:fixed;
+}
+
+.payment-table tr:hover {
+    background-color: #F5F5F5;
+}
+
+.review-write-button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 100px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
+
+/* review modal ------------------------------------------------------------------------------------------------ */
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+
+.modal-container{
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    z-index: 1000;
+}
+
+.product-review-modal-div{
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 25px;
+}
+
+.product-review-modal-div input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 90%;
+    border-radius: 25px;
+    text-indent: 1.2em;
+}
+
+.product-review-modal-div textarea {
+    width: 90%;
+    height: 250px;
+    resize: none;
+    border-radius: 20px;
+    text-indent: 1em;
+}
+
+.product-review-modal-div button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
+
+/* review ---------------------------------------------------------------------------------------- */
+.review-table-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    width: 850px;
+    height: 100%;
+    margin: 10px;
+}
+
+.review-table{
+    width: 80%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.review-table th, td {
+    padding: 10px;
+    height: 10px;
+    text-align: center;
+    word-break:break-all;
+    table-layout:fixed;
+}
+
+.review-table tr:hover {
+    background-color: #F5F5F5;
+}
+
+.reviewTableCss tr {
+    cursor: pointer;
+}
+
+/* reivew detail ------------------------------------------------------------------------------------------------------ */
+.review-detail-table-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    width: 850px;
+    margin: 10px;
+}
+
+.review-detail-table{
+    width: 80%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.review-detail-table th, td {
+    padding: 10px;
+    height: 10px;
+    text-align: center;
+    word-break:break-all;
+    table-layout:fixed;
+}
+
+.content-textarea{
+    width: 90%;
+    height: 250px;
+    resize: none;
+}
+
+.review-detail-input{
+    width: 87%;
+}
+
+.back-btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: white;
+    font-weight: bold;
+}
